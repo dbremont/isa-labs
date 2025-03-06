@@ -14,8 +14,6 @@ else
   y=
 fi
 $sudo apt-get install $y \
-  bochs \
-  bochs-sdl \
   build-essential \
   gcc \
   gcc-multilib \
@@ -25,5 +23,6 @@ $sudo apt-get install $y \
   make \
   nasm \
   qemu \
-  xorriso\
+  qemu-system \
+  xorriso
 ;

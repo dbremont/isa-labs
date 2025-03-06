@@ -47,18 +47,6 @@ debug: $(RUN_FILE)
 	$(QEMU) -S -s &
 	gdb -quiet -x gdb.gdb '$(<:$(OUT_EXT)=$(ELF_EXT))'
 
-bochs: $(RUN_FILE)
-	# Supposes size is already multiples of 512.
-	# We force that with our linker script,
-	# and `grub-mkrescue` also seems to respect it as well.
-	CYLINDERS="$$(($$(stat -c '%s' '$(RUN_FILE)') / 512))" && \
-	bochs -qf /dev/null \
-		'ata0-master: type=disk, path="$(RUN_FILE)", mode=flat, cylinders='"$$CYLINDERS"', heads=1, spt=1' \
-		'com1: enabled=1, mode=file, dev=$(RUN).tmp.serial' \
-		'boot: disk' \
-		'display_library: sdl2' \
-		'megs: 128'
-
 BIG_IMG_DIR := big_img$(TMP_EXT)
 BOOT_DIR := $(BIG_IMG_DIR)/boot
 GRUB_DIR := $(BOOT_DIR)/grub
@@ -75,8 +63,3 @@ big$(OUT_EXT): all
 	#printf "menuentry \"multiboot/hello-world\"  {\n   chainloader /boot/multiboot/hello-world.img\n}\n" >> '$(GRUB_DIR)/grub.cfg';\
 	#cp multiboot/hello-world/main.img '$(BOOT_DIR)/multiboot/hello-world.img'
 	grub-mkrescue -o '$@' '$(BIG_IMG_DIR)'
-
-doc: $(DOC_OUT)
-
-$(DOC_OUT): README.adoc
-	asciidoctor -o $@ -v $<
