@@ -62,4 +62,4 @@ qemu-system-i386 -drive 'file=no_bios_hello_world.img,format=raw' -serial mon:st
 ## References
 
 - [linux-kernel-module-cheat](https://github.com/cirosantilli/linux-kernel-module-cheat)
-- ...
+- [x86-bare-metal-examples](https://github.com/cirosantilli/x86-bare-metal-examples)
