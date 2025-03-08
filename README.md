@@ -2,7 +2,7 @@
 
 > A collection of Bare Metal `ISA / Hardware` Programming projects.
 
-![logo](logo.jpg)
+![logo](img/logo.jpg)
 
 QA:
 
@@ -37,6 +37,19 @@ Run a given OS:
 ./run bios_hello_world
 ./run bios_putc
 ```
+
+## Debug
+
+```bash
+target remote localhost:1234
+set architecture i8086
+break *0x7c00
+continue
+```
+
+```bash
+qemu-system-i386 -drive 'file=no_bios_hello_world.img,format=raw' -serial mon:stdio -smp 2
+ ```
 
 ## Feature Work
 

@@ -47,19 +47,20 @@ debug: $(RUN_FILE)
 	$(QEMU) -S -s &
 	gdb -quiet -x gdb.gdb '$(<:$(OUT_EXT)=$(ELF_EXT))'
 
-BIG_IMG_DIR := big_img$(TMP_EXT)
-BOOT_DIR := $(BIG_IMG_DIR)/boot
-GRUB_DIR := $(BOOT_DIR)/grub
-big$(OUT_EXT): all
-	rm -rf '$(BIG_IMG_DIR)'
-	mkdir -p  '$(GRUB_DIR)'
-	for out in $(OUTS); do\
-	  printf "menuentry \"$${out%.*}\"  {\n   chainloader /boot/$$out\n}\n" >> '$(GRUB_DIR)/grub.cfg';\
-	  cp "$$out" '$(BOOT_DIR)';\
-	done
-	# TODO why does this fail to boot properly?
-	#make -C multiboot/hello-world
-	#mkdir -p '$(BOOT_DIR)/multiboot'
-	#printf "menuentry \"multiboot/hello-world\"  {\n   chainloader /boot/multiboot/hello-world.img\n}\n" >> '$(GRUB_DIR)/grub.cfg';\
-	#cp multiboot/hello-world/main.img '$(BOOT_DIR)/multiboot/hello-world.img'
-	grub-mkrescue -o '$@' '$(BIG_IMG_DIR)'
+# BIG_IMG_DIR := big_img$(TMP_EXT)
+# BOOT_DIR := $(BIG_IMG_DIR)/boot
+# GRUB_DIR := $(BOOT_DIR)/grub
+# big$(OUT_EXT): all
+# 	rm -rf '$(BIG_IMG_DIR)'
+# 	mkdir -p  '$(GRUB_DIR)'
+# 	for out in $(OUTS); do\
+# 	  printf "menuentry \"$${out%.*}\"  {\n   chainloader /boot/$$out\n}\n" >> '$(GRUB_DIR)/grub.cfg';\
+# 	  cp "$$out" '$(BOOT_DIR)';\
+# 	done
+# 	# TODO why does this fail to boot properly?
+# 	#make -C multiboot/hello-world
+# 	#mkdir -p '$(BOOT_DIR)/multiboot'
+# 	#printf "menuentry \"multiboot/hello-world\"  {\n   chainloader /boot/multiboot/hello-world.img\n}\n" >> '$(GRUB_DIR)/grub.cfg';\
+# 	#cp multiboot/hello-world/main.img '$(BOOT_DIR)/multiboot/hello-world.img'
+# 	@echo $(BIG_IMG_DIR)
+# 	grub-mkrescue -o '$@' '$(BIG_IMG_DIR)'
